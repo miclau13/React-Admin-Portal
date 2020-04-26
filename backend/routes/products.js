@@ -67,7 +67,6 @@ router.route('/import').post((req, res) => {
         result.push(_result);
       })
       .on('end', () => {
-        console.log("result",result)
         Product.insertMany(result)
           .then(() => res.status(200).json("Import Done"))
           .catch(error => res.status(400).json('Error: ' + error))
