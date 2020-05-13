@@ -3,6 +3,7 @@ const formidable = require('formidable');
 const fs = require('fs');
 const router = require('express').Router();
 let Product = require('../models/product.model');
+let ProductComparison = require('../models/productComparison.model');
 
 router.route('/').get((req, res) => {
   const productName = req.query.name;
@@ -23,7 +24,17 @@ router.route('/add').post((req, res) => {
   const newProduct = new Product(producInfo);
 
   newProduct.save()
-    .then(() => res.json('Product Added!'))
+    .then((product) => {
+      const newProductComparison = new ProductComparison({
+        productId: product.id,
+        comparisonIdList: [],
+      });
+      newProductComparison.save()
+        .then(() => {
+          res.json('Product Added!');
+        })
+        .catch(error => res.status(400).json('productComparison Error: ' + error));
+    })
     .catch(error => res.status(400).json('Error: ' + error));
 });
 
@@ -49,7 +60,13 @@ router.route('/update/:id').post((req, res) => {
 
 router.route('/delete').delete((req, res) => {
   Product.deleteMany()
-    .then(() => res.json('All Products Deleted!'))
+    .then(() => {
+      ProductComparison.deleteMany()
+      .then(() => {
+        res.json('All Products Deleted!');
+      })
+      .catch(error => res.status(400).json('productComparison Error: ' + error));
+    })
     .catch(error => res.status(400).json('Error: ' + error));
 });
 
@@ -68,7 +85,17 @@ router.route('/import').post((req, res) => {
       })
       .on('end', () => {
         Product.insertMany(result)
-          .then(() => res.status(200).json("Import Done"))
+          .then(productList => {
+            const productComparisonListInput = productList.map(product => ({
+              productId: product._id,
+              comparisonIdList: [],
+            }))
+            ProductComparison.insertMany(productComparisonListInput)
+              .then(() => {
+                res.status(200).json("Import Done");
+              })
+              .catch(error => res.status(400).json('productComparison Error: ' + error));
+          })
           .catch(error => res.status(400).json('Error: ' + error))
       });
   });

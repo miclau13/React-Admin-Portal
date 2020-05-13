@@ -32,6 +32,8 @@ const productsRouter = require('./routes/products');
 app.use('/products', productsRouter);
 const profilesRouter = require('./routes/profiles');
 app.use('/profiles', profilesRouter);
+const productComparisonsRouter = require('./routes/productComparisons');
+app.use('/product-comparisons', productComparisonsRouter);
 
 // app.use('/', productsRouter);
 
