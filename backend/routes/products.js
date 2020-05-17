@@ -19,9 +19,9 @@ router.route('/').get((req, res) => {
   }
 });
 
-router.route('/add').post((req, res) => {
+router.route('/').post((req, res) => {
   const producInfo = req.body;
-  const newProduct = new Product(producInfo);
+  const newProduct = new Product({...producInfo, rating: Number(producInfo.rating) });
 
   newProduct.save()
     .then((product) => {
@@ -38,18 +38,34 @@ router.route('/add').post((req, res) => {
     .catch(error => res.status(400).json('Error: ' + error));
 });
 
-router.route('/update/:id').post((req, res) => {
+router.route('/:id').post((req, res) => {
   const productId = req.params.id;
-  const { productName, category, price, origin, labels, rating, productionDate } = req.body;
+  const { brandName, name, category, price, origin, labels, rating, remarks, saved } = req.body;
   Product.findById(productId)
     .then(product => {
-      product.productName = productName;
+      product.brandName = brandName;
+      product.name = name;
       product.category = category;
       product.price = price;
       product.origin = origin;
       product.labels = labels;
       product.rating = Number(rating);
-      product.productionDate = Date.parse(productionDate);
+      product.remarks = remarks;
+      product.saved = saved;
+      // product.productionDate = Date.parse(productionDate);
+
+      product.save()
+        .then(products => res.json(products))
+        .catch(error => res.status(400).json('Error: ' + error));
+    })
+    .catch(error => res.status(400).json('Error: ' + error));
+});
+
+router.route('/favorite/:id').post((req, res) => {
+  const productId = req.params.id;
+  Product.findById(productId)
+    .then(product => {
+      product.saved = !product.saved;
 
       product.save()
         .then(products => res.json(products))
@@ -86,15 +102,16 @@ router.route('/import').post((req, res) => {
       .on('end', () => {
         Product.insertMany(result)
           .then(productList => {
-            const productComparisonListInput = productList.map(product => ({
-              productId: product._id,
-              comparisonIdList: [],
-            }))
-            ProductComparison.insertMany(productComparisonListInput)
-              .then(() => {
-                res.status(200).json("Import Done");
-              })
-              .catch(error => res.status(400).json('productComparison Error: ' + error));
+            // const productComparisonListInput = productList.map(product => ({
+            //   productId: product._id,
+            //   comparisonIdList: [],
+            // }))
+            // ProductComparison.insertMany(productComparisonListInput)
+            //   .then(() => {
+            //     res.status(200).json("Import Done");
+            //   })
+            //   .catch(error => res.status(400).json('productComparison Error: ' + error));
+            res.status(200).json("Import Done");
           })
           .catch(error => res.status(400).json('Error: ' + error))
       });

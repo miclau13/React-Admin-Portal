@@ -81,11 +81,11 @@ export default function SearchCard(props) {
               </TableHead>
               <TableBody>
                 {data.map(row => {
-                  const { id, category, labels, origin, price, productName, productionDate, rating } = row;
+                  const { id, category, labels, origin, price, name, productionDate, rating } = row;
                   return (
                     <TableRow hover key={id} className={classes.hover} onClick={handleTableRowOnClick(row.id)} >
                       <TableCell component="th" scope="row">
-                        {productName}
+                        {name}
                       </TableCell>
                       <TableCell align="right">{category}</TableCell>
                       <TableCell align="right">{price}</TableCell>
