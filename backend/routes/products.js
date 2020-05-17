@@ -30,8 +30,8 @@ router.route('/').post((req, res) => {
         comparisonIdList: [],
       });
       newProductComparison.save()
-        .then(() => {
-          res.json('Product Added!');
+        .then(productComparison => {
+          res.json(product)
         })
         .catch(error => res.status(400).json('productComparison Error: ' + error));
     })
