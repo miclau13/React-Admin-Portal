@@ -74,6 +74,20 @@ router.route('/favorite/:id').post((req, res) => {
     .catch(error => res.status(400).json('Error: ' + error));
 });
 
+router.route('/rating/:id').post((req, res) => {
+  const productId = req.params.id;
+  const { rating } = req.body;
+  Product.findById(productId)
+    .then(product => {
+      product.rating = rating;
+
+      product.save()
+        .then(products => res.json(products))
+        .catch(error => res.status(400).json('Error: ' + error));
+    })
+    .catch(error => res.status(400).json('Error: ' + error));
+});
+
 router.route('/delete').delete((req, res) => {
   Product.deleteMany()
     .then(() => {
