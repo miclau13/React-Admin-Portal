@@ -11,6 +11,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+import Header from './Header';
 import Search from './Search';
 import UpdateCard from './UpdateCard';
 import LoadingComponent from "../common/LoadingComponent";
@@ -64,6 +65,7 @@ export default function SearchCard(props) {
   return (
     <Card className={classes.root}>
       <CardContent>
+      <Header />
         <Search onSubmit={onSubmit} onChange={onChange} />
           <TableContainer className={classes.table}>
             <Table>
