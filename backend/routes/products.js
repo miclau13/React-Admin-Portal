@@ -19,23 +19,37 @@ router.route('/').get((req, res) => {
   }
 });
 
-router.route('/').post((req, res) => {
-  const producInfo = req.body;
-  const newProduct = new Product({...producInfo, rating: Number(producInfo.rating) });
-
-  newProduct.save()
-    .then((product) => {
-      const newProductComparison = new ProductComparison({
-        productId: product.id,
-        comparisonIdList: [],
+router.route('/import').post((req, res) => {
+  let form = new formidable.IncomingForm();
+  let result = [];
+  form.parse(req, function(err, fields, files) {
+    fs.createReadStream(files.file.path)
+      .pipe(csvtojson())
+      .on('data', (data) => {
+        //data is a buffer object
+        const dataInJson = JSON.parse(data.toString('utf8'));
+        const labelsInArray = dataInJson.labels.split(", ");
+        const photosInArray = dataInJson.photos.split("\n");
+        const _result = { ...dataInJson, labels: labelsInArray, photos: photosInArray};
+        result.push(_result);
+      })
+      .on('end', () => {
+        Product.insertMany(result)
+          .then(productList => {
+            // const productComparisonListInput = productList.map(product => ({
+            //   productId: product._id,
+            //   comparisonIdList: [],
+            // }))
+            // ProductComparison.insertMany(productComparisonListInput)
+            //   .then(() => {
+            //     res.status(200).json("Import Done");
+            //   })
+            //   .catch(error => res.status(400).json('productComparison Error: ' + error));
+            res.status(200).json("Import Done");
+          })
+          .catch(error => res.status(400).json('Error: ' + error))
       });
-      newProductComparison.save()
-        .then(productComparison => {
-          res.json(product)
-        })
-        .catch(error => res.status(400).json('productComparison Error: ' + error));
-    })
-    .catch(error => res.status(400).json('Error: ' + error));
+  });
 });
 
 router.route('/:id').post((req, res) => {
@@ -92,44 +106,31 @@ router.route('/delete').delete((req, res) => {
   Product.deleteMany()
     .then(() => {
       ProductComparison.deleteMany()
-      .then(() => {
-        res.json('All Products Deleted!');
-      })
-      .catch(error => res.status(400).json('productComparison Error: ' + error));
+        .then(() => {
+          res.json('All Products Deleted!');
+        })
+        .catch(error => res.status(400).json('productComparison Error: ' + error));
     })
     .catch(error => res.status(400).json('Error: ' + error));
 });
 
-router.route('/import').post((req, res) => {
-  let form = new formidable.IncomingForm();
-  let result = [];
-  form.parse(req, function(err, fields, files) {
-    fs.createReadStream(files.file.path)
-      .pipe(csvtojson())
-      .on('data', (data) => {
-        //data is a buffer object
-        const dataInJson = JSON.parse(data.toString('utf8'));
-        const labelsInArray = dataInJson.labels.split(", ")
-        const _result = { ...dataInJson, labels: labelsInArray};
-        result.push(_result);
-      })
-      .on('end', () => {
-        Product.insertMany(result)
-          .then(productList => {
-            // const productComparisonListInput = productList.map(product => ({
-            //   productId: product._id,
-            //   comparisonIdList: [],
-            // }))
-            // ProductComparison.insertMany(productComparisonListInput)
-            //   .then(() => {
-            //     res.status(200).json("Import Done");
-            //   })
-            //   .catch(error => res.status(400).json('productComparison Error: ' + error));
-            res.status(200).json("Import Done");
-          })
-          .catch(error => res.status(400).json('Error: ' + error))
+router.route('/').post((req, res) => {
+  const producInfo = req.body;
+  const newProduct = new Product({...producInfo, rating: Number(producInfo.rating) });
+
+  newProduct.save()
+    .then((product) => {
+      const newProductComparison = new ProductComparison({
+        productId: product.id,
+        comparisonIdList: [],
       });
-  });
-});
+      newProductComparison.save()
+        .then(productComparison => {
+          res.json(product)
+        })
+        .catch(error => res.status(400).json('productComparison Error: ' + error));
+    })
+    .catch(error => res.status(400).json('Error: ' + error));
+})
 
 module.exports = router;
