@@ -20,6 +20,14 @@ const AdminSchema = new Schema({
   faq: {
     content: { type: String },
   },
+  terms: { 
+    title1: { type: String },
+    content1: { type: String },
+    title2: { type: String },
+    content2: { type: String },
+    title3: { type: String },
+    content3: { type: String },
+  },
   // questions: { type: Array },
   // privacy: { type: String },
   // terms: { type: String },

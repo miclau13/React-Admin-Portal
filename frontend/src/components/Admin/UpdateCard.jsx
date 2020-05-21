@@ -30,7 +30,15 @@ export default function UpdateCard(props) {
     },
     faq: {
       faqContent: "",
-    }
+    },
+    terms: {
+      termsTitle1: "",
+      termsContent1: "",
+      termsTitle2: "",
+      termsContent2: "",
+      termsTitle3: "",
+      termsContent3: "",
+    },
   };
 
   const {    
@@ -46,13 +54,18 @@ export default function UpdateCard(props) {
       footer: aboutUsFooter,
       title: aboutUsTitle
     },
-    // faq: {
-    //   content: faqContent,
-    // }
-    faq
+    faq: {
+      content: faqContent,
+    },
+    terms: {
+      title1: termsTitle1,
+      content1: termsContent1,
+      title2: termsTitle2,
+      content2: termsContent2,
+      title3: termsTitle3,
+      content3: termsContent3,
+    },
   } = adminFields;
-
-  const faqContent = "";
 
   const formik = useFormik({
     initialValues: {
@@ -60,6 +73,12 @@ export default function UpdateCard(props) {
       aboutUsFooter,
       aboutUsTitle,
       faqContent,
+      termsTitle1,
+      termsContent1,
+      termsTitle2,
+      termsContent2,
+      termsTitle3,
+      termsContent3,
       // terms,
       // version,
     },
@@ -79,6 +98,11 @@ export default function UpdateCard(props) {
           const k = camelCase(key.substring(3));
           // console.log("k", k)
           acc['faq'] = { ...acc['faq'], [k]: value }
+          // console.log("acc['faq']", acc['faq'])
+        } else if (key.startsWith('terms')) {
+          const k = camelCase(key.substring(5));
+          // console.log("k", k)
+          acc['terms'] = { ...acc['terms'], [k]: value }
           // console.log("acc['faq']", acc['faq'])
         } 
         return acc;

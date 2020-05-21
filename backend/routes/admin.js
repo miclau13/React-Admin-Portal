@@ -14,9 +14,10 @@ router.route('/:id').post((req, res) => {
   const {       
     aboutUs,
     faq,
+    terms,
     // questions,
     // privacy,
-    // terms,
+
     // version, 
   } = req.body;
   console.log("req.body",req.body)
@@ -24,9 +25,10 @@ router.route('/:id').post((req, res) => {
     .then(admin => {
       admin.aboutUs = aboutUs;
       admin.faq = faq;
+      admin.terms = terms;
       // admin.questions = questions;
       // admin.privacy = privacy;
-      // admin.terms = terms;
+
       // admin.version = version;
 
       admin.save()
