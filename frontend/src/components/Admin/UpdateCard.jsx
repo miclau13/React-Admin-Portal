@@ -39,6 +39,28 @@ export default function UpdateCard(props) {
       termsTitle3: "",
       termsContent3: "",
     },
+    privacy: {
+      title1: "",
+      content1: "",
+      title2: "",
+      content2: "",
+      title3: "",
+      content3: "",
+      title4: "",
+      content4: "",
+      title5: "",
+      content5: "",
+      title6: "",
+      content6: "",
+      title7: "",
+      content7: "",
+      title8: "",
+      content8: "",
+      title9: "",
+      content9: "",
+      title10: "",
+      content10: "",
+    },
   };
 
   const {    
@@ -67,6 +89,27 @@ export default function UpdateCard(props) {
     },
   } = adminFields;
 
+const privacyTitle1= "";
+const privacyContent1= "";
+const privacyTitle2= "";
+const privacyContent2= "";
+const privacyTitle3= "";
+const privacyContent3= "";
+const privacyTitle4= "";
+const privacyContent4= "";
+const privacyTitle5= "";
+const privacyContent5= "";
+const privacyTitle6= "";
+const privacyContent6= "";
+const privacyTitle7= "";
+const privacyContent7= "";
+const privacyTitle8= "";
+const privacyContent8= "";
+const privacyTitle9= "";
+const privacyContent9= "";
+const privacyTitle10= "";
+const privacyContent10= "";
+
   const formik = useFormik({
     initialValues: {
       aboutUsContent,
@@ -79,6 +122,26 @@ export default function UpdateCard(props) {
       termsContent2,
       termsTitle3,
       termsContent3,
+      privacyTitle1,
+      privacyContent1,
+      privacyTitle2,
+      privacyContent2,
+      privacyTitle3,
+      privacyContent3,
+      privacyTitle4,
+      privacyContent4,
+      privacyTitle5,
+      privacyContent5,
+      privacyTitle6,
+      privacyContent6,
+      privacyTitle7,
+      privacyContent7,
+      privacyTitle8,
+      privacyContent8,
+      privacyTitle9,
+      privacyContent9,
+      privacyTitle10,
+      privacyContent10,
       // terms,
       // version,
     },
@@ -103,6 +166,11 @@ export default function UpdateCard(props) {
           const k = camelCase(key.substring(5));
           // console.log("k", k)
           acc['terms'] = { ...acc['terms'], [k]: value }
+          // console.log("acc['faq']", acc['faq'])
+        } else if (key.startsWith('privacy')) {
+          const k = camelCase(key.substring(7));
+          // console.log("k", k)
+          acc['privacy'] = { ...acc['privacy'], [k]: value }
           // console.log("acc['faq']", acc['faq'])
         } 
         return acc;

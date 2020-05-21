@@ -15,8 +15,8 @@ router.route('/:id').post((req, res) => {
     aboutUs,
     faq,
     terms,
+    privacy,
     // questions,
-    // privacy,
 
     // version, 
   } = req.body;
@@ -26,8 +26,9 @@ router.route('/:id').post((req, res) => {
       admin.aboutUs = aboutUs;
       admin.faq = faq;
       admin.terms = terms;
+      admin.privacy = privacy;
       // admin.questions = questions;
-      // admin.privacy = privacy;
+
 
       // admin.version = version;
 
