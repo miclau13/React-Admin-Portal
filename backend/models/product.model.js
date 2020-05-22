@@ -10,8 +10,8 @@ const ProductSchema = new Schema({
   origin: { type: String },
   productionDate: { type: Date },
   labels: { type: Array },
-  saved: { type: Boolean },
-  rating: { type: Number },
+  // saved: { type: Boolean },
+  // rating: { type: Number },
   photos: { type: Array },
   remarks: { type: String },
 }, {

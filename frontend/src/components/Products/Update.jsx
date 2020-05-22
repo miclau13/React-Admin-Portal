@@ -30,14 +30,14 @@ const Update = (props) => {
         id="productName"
         label="Product Name"
         variant="outlined"
-        name="productName"
+        name="name"
         margin="normal"
         inputProps={{
           onBlur: handleBlur,
           onChange: handleChange,
-          value: values['productName'],
+          value: values['name'],
         }}
-        defaultValue={initialValues['productName']}
+        defaultValue={initialValues['name']}
       />
       <TextField
         id="category"
@@ -91,7 +91,7 @@ const Update = (props) => {
         }}
         defaultValue={initialValues['labels']}
       />
-      <TextField
+      {/* <TextField
         id="rating"
         label="Rating"
         variant="outlined"
@@ -103,7 +103,7 @@ const Update = (props) => {
           value: values['rating'],
         }}
         defaultValue={initialValues['rating']}
-      />
+      /> */}
       <TextField
         disabled
         id="productionDate"

@@ -16,9 +16,8 @@ router.route('/:id').post((req, res) => {
     faq,
     terms,
     privacy,
-    // questions,
-
-    // version, 
+    info,
+    version, 
   } = req.body;
   console.log("req.body",req.body)
   Admin.findById(adminId)
@@ -27,10 +26,8 @@ router.route('/:id').post((req, res) => {
       admin.faq = faq;
       admin.terms = terms;
       admin.privacy = privacy;
-      // admin.questions = questions;
-
-
-      // admin.version = version;
+      admin.info = info;
+      admin.version = version;
 
       admin.save()
         .then(admin => res.json(admin))

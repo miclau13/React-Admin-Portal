@@ -76,7 +76,7 @@ export default function SearchCard(props) {
                   <TableCell align="right">Price</TableCell>
                   <TableCell align="right">Origin</TableCell>
                   <TableCell align="right">Labels</TableCell>
-                  <TableCell align="right">Rating</TableCell>
+                  {/* <TableCell align="right">Rating</TableCell> */}
                   {/* <TableCell align="right">Saved</TableCell> */}
                   <TableCell align="right">Production Date</TableCell>
                 </TableRow>
@@ -93,7 +93,7 @@ export default function SearchCard(props) {
                       <TableCell align="right">{price}</TableCell>
                       <TableCell align="right">{origin}</TableCell>
                       <TableCell align="right">{labels}</TableCell>
-                      <TableCell align="right">{rating}</TableCell>
+                      {/* <TableCell align="right">{rating}</TableCell> */}
                       {/* <TableCell align="right">{saved}</TableCell> */}
                       <TableCell align="right">{productionDate}</TableCell>
                     </TableRow>

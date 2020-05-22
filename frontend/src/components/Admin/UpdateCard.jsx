@@ -61,15 +61,20 @@ export default function UpdateCard(props) {
       title10: "",
       content10: "",
     },
+    info: {
+      infoTitle1: "",
+      infoContent1: "",
+      infoTitle2: "",
+      infoContent2: "",
+      infoTitle3: "",
+      infoContent3: "",
+    },
+    version: {
+      versionContent: "",
+    },
   };
 
   const {    
-    // id="",   
-    // aboutUs="",
-    // questions="[]",
-    // privacy="",
-    // terms="",
-    // version="", 
     id,
     aboutUs: {
       content: aboutUsContent,
@@ -87,28 +92,40 @@ export default function UpdateCard(props) {
       title3: termsTitle3,
       content3: termsContent3,
     },
+    privacy: { 
+      title1: privacyTitle1,
+      content1: privacyContent1,
+      title2: privacyTitle2,
+      content2: privacyContent2,
+      title3: privacyTitle3,
+      content3: privacyContent3,
+      title4: privacyTitle4,
+      content4: privacyContent4,
+      title5: privacyTitle5,
+      content5: privacyContent5,
+      title6: privacyTitle6,
+      content6: privacyContent6,
+      title7: privacyTitle7,
+      content7: privacyContent7,
+      title8: privacyTitle8,
+      content8: privacyContent8,
+      title9: privacyTitle9,
+      content9: privacyContent9,
+      title10: privacyTitle10,
+      content10: privacyContent10,
+    },
+    info: {
+      title1: infoTitle1,
+      content1: infoContent1,
+      title2: infoTitle2,
+      content2: infoContent2,
+      title3: infoTitle3,
+      content3: infoContent3,
+    },
+    version: {
+      content: versionContent,
+    },
   } = adminFields;
-
-const privacyTitle1= "";
-const privacyContent1= "";
-const privacyTitle2= "";
-const privacyContent2= "";
-const privacyTitle3= "";
-const privacyContent3= "";
-const privacyTitle4= "";
-const privacyContent4= "";
-const privacyTitle5= "";
-const privacyContent5= "";
-const privacyTitle6= "";
-const privacyContent6= "";
-const privacyTitle7= "";
-const privacyContent7= "";
-const privacyTitle8= "";
-const privacyContent8= "";
-const privacyTitle9= "";
-const privacyContent9= "";
-const privacyTitle10= "";
-const privacyContent10= "";
 
   const formik = useFormik({
     initialValues: {
@@ -142,37 +159,36 @@ const privacyContent10= "";
       privacyContent9,
       privacyTitle10,
       privacyContent10,
-      // terms,
-      // version,
+      infoTitle1,
+      infoContent1,
+      infoTitle2,
+      infoContent2,
+      infoTitle3,
+      infoContent3,
+      versionContent,
     },
     onSubmit: async values => {
-      console.log("onSubmit values", values)
       const body = reduce(values, (acc, value, key) => {
-        // console.log("body",body)
-        // console.log("acc" ,acc)
-        // console.log("value" ,value)
-        // console.log("key" ,key)
         if (key.startsWith('aboutUs')) {
           const k = camelCase(key.substring(7));
-          // console.log("k", k)
           acc['aboutUs'] = { ...acc['aboutUs'], [k]: value }
-          // console.log("acc['aboutUs']", acc['aboutUs'])
         } else if (key.startsWith('faq')) {
           const k = camelCase(key.substring(3));
-          // console.log("k", k)
           acc['faq'] = { ...acc['faq'], [k]: value }
-          // console.log("acc['faq']", acc['faq'])
         } else if (key.startsWith('terms')) {
           const k = camelCase(key.substring(5));
-          // console.log("k", k)
           acc['terms'] = { ...acc['terms'], [k]: value }
-          // console.log("acc['faq']", acc['faq'])
         } else if (key.startsWith('privacy')) {
           const k = camelCase(key.substring(7));
-          // console.log("k", k)
           acc['privacy'] = { ...acc['privacy'], [k]: value }
-          // console.log("acc['faq']", acc['faq'])
+        } else if (key.startsWith('info')) {
+          const k = camelCase(key.substring(4));
+          acc['info'] = { ...acc['info'], [k]: value }
+        } else if (key.startsWith('version')) {
+          const k = camelCase(key.substring(7));
+          acc['version'] = { ...acc['version'], [k]: value }
         } 
+        
         return acc;
       }, {});
       console.log("body",body)

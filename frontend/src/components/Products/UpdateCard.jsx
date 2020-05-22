@@ -21,21 +21,24 @@ export default function UpdateCard(props) {
   const { id } = useParams();
   const { data = [] } = props;
   const product = data.filter(item => item.id === id)[0] || {};
-  const { productName, category, price, origin, labels, rating, productionDate } = product;
+  const { name, category, price, origin, labels, productionDate } = product;
 
   const formik = useFormik({
     initialValues: {
-      productName,
+      name,
       category,
       price,
       origin,
       labels,
-      rating,
+      // rating,
       productionDate,
     },
     onSubmit: async values => {
       setLoading(true);
-      await axios.post(`/products/update/`+ id, values);
+      await axios.post(`/products/update/`+ id, {
+        ...values,
+        devicedId: "admin"
+      });
       setLoading(false);
     },
   });

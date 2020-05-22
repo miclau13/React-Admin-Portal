@@ -16,6 +16,7 @@ import { MORE_INFO } from '../../common/constant';
 const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(1),
+    padding: theme.spacing(3),
     display: 'flex',
   },
 }));
@@ -36,16 +37,12 @@ const Update = (props) => {
       onSubmit={handleOnSubmit}
     >
       {MORE_INFO.map((info, index) => {
-        // console.log("info", info)
         return (
           <FormGroup key={index}>
             <Typography variant="h6">{info.group}</Typography>
             <Divider />
             <Box 
               component="div" 
-              // display="flex" 
-              // flexDirection="row"
-              // flexWrap="wrap"
               p={1}
               mt={1}
             >
@@ -54,8 +51,6 @@ const Update = (props) => {
                 const name = camelCase(`${info.group} ${item}`);
                 const value = values[name];
                 const defaultValue = initialValues[name];
-                // console.log("name", name)
-                // console.log("value", value)
                 return (
                   <TextField 
                     fullWidth 

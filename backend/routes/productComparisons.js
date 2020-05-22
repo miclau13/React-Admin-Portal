@@ -2,8 +2,9 @@ const router = require('express').Router();
 let Product = require('../models/product.model');
 let ProductComparison = require('../models/productComparison.model');
 
-router.route('/').get((req, res) => {
-  ProductComparison.find()
+router.route('/device/:id').get((req, res) => {
+  const deviceId = req.params.id;
+  ProductComparison.find({ deviceId })
     .then(async productComparisons => {
       const resolveProductPromises = productComparisons.map(async productComparison => {
         try {
@@ -34,8 +35,58 @@ router.route('/').get((req, res) => {
 router.route('/:id').get((req, res) => {
   const productId = req.params.id;
   ProductComparison.find({ productId })
-    .then(productComparisonIdList => {
-      res.json(productComparisonIdList);
+    .then(async productComparisons => {
+      const resolveProductPromises = productComparisons.map(async productComparison => {
+        try {
+          const promises = (productComparison.comparisonIdList || []).map(async id => {
+            const productResult = await Product.findById(id);
+            return productResult;
+          });
+          return await Promise.all(promises);
+        } catch (error) {
+          console.log("error",error);
+          res.status(400).json('Error: ' + error)
+        };
+      })
+      const resolvedProductList = await Promise.all(resolveProductPromises);
+      const finalResult = productComparisons.map((productComparison, index) => {
+        return ({
+          _id: productComparison._id,
+          productId: productComparison.productId,
+          updatedAt: productComparison.updatedAt,
+          comparionsList: resolvedProductList[index]
+        })
+      })
+      res.json(finalResult)
+    })
+    .catch(error => res.status(400).json('Error: ' + error));
+});
+
+router.route('/').get((req, res) => {
+  ProductComparison.find()
+    .then(async productComparisons => {
+      const resolveProductPromises = productComparisons.map(async productComparison => {
+        try {
+          const promises = (productComparison.comparisonIdList || []).map(async id => {
+            const productResult = await Product.findById(id);
+            return productResult;
+          });
+          return await Promise.all(promises);
+        } catch (error) {
+          console.log("error",error);
+          res.status(400).json('Error: ' + error)
+        };
+      })
+      const resolvedProductList = await Promise.all(resolveProductPromises);
+      const finalResult = productComparisons.map((productComparison, index) => {
+        return ({
+          _id: productComparison._id,
+          productId: productComparison.productId,
+          updatedAt: productComparison.updatedAt,
+          comparionsList: resolvedProductList[index]
+        })
+      })
+      res.json(finalResult)
     })
     .catch(error => res.status(400).json('Error: ' + error));
 });
@@ -51,13 +102,14 @@ router.route('/:id').get((req, res) => {
 
 router.route('/:id').post((req, res) => {
   const productId = req.params.id;
-  const { comparisonIdList = [] } = req.body;
-  ProductComparison.findOne({ productId })
+  const { comparisonIdList = [], deviceId } = req.body;
+  ProductComparison.findOne({ productId, deviceId })
     .then(async productComparison => {
       if (!productComparison) {
         const newProductComparison = new ProductComparison({
           productId,
-          comparisonIdList
+          comparisonIdList,
+          deviceId
         });
         newProductComparison.save()
           .then(() => res.json('ProductComparison Added!'))
@@ -73,6 +125,7 @@ router.route('/:id').post((req, res) => {
           };
         });
         productComparison.comparisonIdList = newComparisonIdList;
+        productComparison.deviceId = deviceId;
         try {
           const productComparisonResult = await productComparison.save();
           const promises = productComparisonResult.comparisonIdList.map(async id => {

@@ -50,10 +50,17 @@ const AdminSchema = new Schema({
     title10: { type: String },
     content10: { type: String },
   },
-  // questions: { type: Array },
-
-  // terms: { type: String },
-  // version: { type: String },
+  info: { 
+    title1: { type: String },
+    content1: { type: String },
+    title2: { type: String },
+    content2: { type: String },
+    title3: { type: String },
+    content3: { type: String },
+  },
+  version: { 
+    content: { type: String },
+  },
 }, {
   timestamps: true,
 });

@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const csvtojson = require("csvtojson");
+// const csvtojson = require("csvtojson");
 // const db = require('./queries');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -34,6 +34,10 @@ const profilesRouter = require('./routes/profiles');
 app.use('/profiles', profilesRouter);
 const productComparisonsRouter = require('./routes/productComparisons');
 app.use('/product-comparisons', productComparisonsRouter);
+const productFavoriteRouter = require('./routes/productFavorite');
+app.use('/product-favorite', productFavoriteRouter);
+const productRatingRouter = require('./routes/productRating');
+app.use('/product-rating', productRatingRouter);
 
 // app.use('/', productsRouter);
 

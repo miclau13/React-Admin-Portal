@@ -49,5 +49,21 @@ export const MORE_INFO = [
       'content10',
     ]
   },
-
+  {
+    group: 'Info',
+    items: [
+      'title1',
+      'content1',
+      'title2',
+      'content2',
+      'title3',
+      'content3',
+    ]
+  },
+  {
+    group: 'Version',
+    items: [
+      'content',
+    ]
+  },
 ];
