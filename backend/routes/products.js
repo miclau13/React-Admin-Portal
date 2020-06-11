@@ -138,6 +138,19 @@ router.route('/:id').post((req, res) => {
 //     .catch(error => res.status(400).json('Error: ' + error));
 // });
 
+router.route('/delete/:id').delete((req, res) => {
+  const id = req.params.id;
+  Product.findByIdAndDelete(id)
+    .then(() => {
+      ProductComparison.deleteMany({ productId: id })
+        .then(() => {
+          res.json('Product Deleted!');
+        })
+        .catch(error => res.status(400).json('productComparison Error: ' + error));
+    })
+    .catch(error => res.status(400).json('Error: ' + error));
+});
+
 router.route('/delete').delete((req, res) => {
   Product.deleteMany()
     .then(() => {

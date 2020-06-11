@@ -1,11 +1,17 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({
+  divider: {
+    height: 28,
+    margin: 4,
+  },
   root: {
     padding: '2px 4px',
     display: 'flex',
@@ -22,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Search(props) {
-  const { onSubmit, onChange } = props;
+  const { onSubmit, onChange, handleAddIconOnClick } = props;
   const classes = useStyles();
 
   return (
@@ -40,6 +46,10 @@ export default function Search(props) {
         type="submit"
       >
         <SearchIcon />
+      </IconButton>
+      <Divider className={classes.divider} orientation="vertical" />
+      <IconButton color="primary" className={classes.iconButton} aria-label="add" onClick={handleAddIconOnClick}>
+        <AddIcon />
       </IconButton>
     </Paper>
   );

@@ -4,12 +4,14 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import Header from './Header';
 import Search from './Search';
@@ -25,11 +27,14 @@ const useStyles = makeStyles(theme => ({
   },
   hover: {
 		cursor: 'pointer',
-  }
+  },
+  iconButton: {
+    padding: 10,
+  },
 }));
 
 export default function SearchCard(props) {
-  const { data: incomingData = [] } = props;
+  const { data: incomingData = [], fetchProductList } = props;
   const classes = useStyles();
   const history = useHistory();
   const [input, setInput] = React.useState();
@@ -52,10 +57,25 @@ export default function SearchCard(props) {
     setLoading(false);
   }, [data, input]);
 
-  const handleTableRowOnClick = React.useCallback((id) =>(e) => {
+  const handleTableRowOnClick = React.useCallback((id) => (e) => {
     history.push(`/product/${id}`);
   }, []);
 
+  const handleDeleteIconOnClick = React.useCallback((id) => async (e) => {
+    e.stopPropagation();
+    setLoading(true);
+    try {
+      await axios.delete(`/products/delete/`+ id);
+      await fetchProductList();
+    } catch (error) {
+    };
+    setLoading(false);
+  }, [fetchProductList]);
+
+  const handleAddIconOnClick = React.useCallback((e) => {
+    history.push(`/product/add`);
+  }, []);
+  
   if (loading) {
     return (
       <LoadingComponent />
@@ -66,11 +86,12 @@ export default function SearchCard(props) {
     <Card className={classes.root}>
       <CardContent>
       <Header />
-        <Search onSubmit={onSubmit} onChange={onChange} />
+        <Search onSubmit={onSubmit} onChange={onChange} handleAddIconOnClick={handleAddIconOnClick} />
           <TableContainer className={classes.table}>
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell></TableCell>
                   <TableCell>Name</TableCell>
                   <TableCell align="right">Category</TableCell>
                   <TableCell align="right">Price</TableCell>
@@ -86,6 +107,11 @@ export default function SearchCard(props) {
                   const { id, category, labels, origin, price, name, productionDate, rating } = row;
                   return (
                     <TableRow hover key={id} className={classes.hover} onClick={handleTableRowOnClick(row.id)} >
+                      <TableCell component="th" scope="row">
+                        <IconButton className={classes.iconButton} aria-label="delete" onClick={handleDeleteIconOnClick(row.id)}>
+                          <DeleteIcon color="error" />
+                        </IconButton>
+                      </TableCell>
                       <TableCell component="th" scope="row">
                         {name}
                       </TableCell>

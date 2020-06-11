@@ -23,6 +23,32 @@ function App() {
   const [profilesData, setProfilesData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
+  const fetchProductList = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/products`, {
+        method: 'get',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      const result = await response.json() || [];
+      const productList = result.map(product => {
+        return omit({
+          id: product._id,
+          ...product,
+        },['__v', '_id', 'updatedAt'])
+      });
+      // console.log("productList",productList);
+      setProductsData(productList)
+    } catch (error) {
+      console.log(" fetchProductList error:", error);
+    } finally { 
+      setLoading(false);
+    }
+  };
+
   React.useEffect(() => {
     const fetchAdminData = async () => {
       try {
@@ -44,31 +70,6 @@ function App() {
         setAdminData(adminDataList)
       } catch (error) {
         console.log(" fetchAdminData error:", error);
-      } finally { 
-        setLoading(false);
-      }
-    };
-    const fetchProductList = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`/products`, {
-          method: 'get',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        });
-        const result = await response.json() || [];
-        const productList = result.map(product => {
-          return omit({
-            id: product._id,
-            ...product,
-          },['__v', '_id', 'updatedAt'])
-        });
-        // console.log("productList",productList);
-        setProductsData(productList)
-      } catch (error) {
-        console.log(" fetchProductList error:", error);
       } finally { 
         setLoading(false);
       }
@@ -119,8 +120,11 @@ function App() {
           <Route path="/product/:id">
             <ProductUpdateCard data={productsData} /> 
           </Route>
+          <Route path="/product/add">
+            <ProductUpdateCard /> 
+          </Route>
           <Route path="/product">
-            <ProductSearchCard data={productsData} />
+            <ProductSearchCard data={productsData} fetchProductList={fetchProductList} />
           </Route>
           <Route path="/products-import">
             <ProductImportDataCard />

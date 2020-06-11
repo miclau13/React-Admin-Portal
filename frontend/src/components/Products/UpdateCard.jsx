@@ -35,10 +35,21 @@ export default function UpdateCard(props) {
     },
     onSubmit: async values => {
       setLoading(true);
-      await axios.post(`/products/update/`+ id, {
-        ...values,
-        devicedId: "admin"
-      });
+      try {
+        if (id !== "add") {
+          await axios.post(`/products/`+ id, {
+            ...values,
+            devicedId: "admin"
+          });
+        } else {
+          await axios.post(`/products`, {
+            ...values,
+            devicedId: "admin"
+          });
+        };
+      } catch (error) {
+        console.log("Error", error);
+      } 
       setLoading(false);
     },
   });
