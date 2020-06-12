@@ -117,7 +117,7 @@ const Update = (props) => {
         }}
         defaultValue={initialValues['rating']}
       /> */}
-      <TextField
+      {/* <TextField
         disabled
         id="productionDate"
         label="Production Date"
@@ -130,7 +130,7 @@ const Update = (props) => {
           value: values['productionDate'],
         }}
         defaultValue={initialValues['productionDate']}
-      />
+      /> */}
       <Button 
         color="primary"
         variant="contained" 

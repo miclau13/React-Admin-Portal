@@ -31,7 +31,7 @@ export default function UpdateCard(props) {
       origin,
       labels,
       brandName,
-      productionDate,
+      // productionDate,
     },
     onSubmit: async values => {
       setLoading(true);
