@@ -40,6 +40,19 @@ const Update = (props) => {
         defaultValue={initialValues['name']}
       />
       <TextField
+        id="brandName"
+        label="Brand Name"
+        variant="outlined"
+        name="brandName"
+        margin="normal"
+        inputProps={{
+          onBlur: handleBlur,
+          onChange: handleChange,
+          value: values['brandName'],
+        }}
+        defaultValue={initialValues['brandName']}
+      />
+      <TextField
         id="category"
         label="Category"
         variant="outlined"

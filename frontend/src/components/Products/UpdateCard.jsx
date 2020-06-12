@@ -21,7 +21,7 @@ export default function UpdateCard(props) {
   const { id } = useParams();
   const { data = [] } = props;
   const product = data.filter(item => item.id === id)[0] || {};
-  const { name, category, price, origin, labels, productionDate } = product;
+  const { name, category, price, origin, labels, productionDate, brandName } = product;
 
   const formik = useFormik({
     initialValues: {
@@ -30,7 +30,7 @@ export default function UpdateCard(props) {
       price,
       origin,
       labels,
-      // rating,
+      brandName,
       productionDate,
     },
     onSubmit: async values => {
