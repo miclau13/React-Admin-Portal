@@ -19,7 +19,7 @@ export default function UpdateCard(props) {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
   const { id } = useParams();
-  const { data = [] } = props;
+  const { data = [], fetchProductList } = props;
   const product = data.filter(item => item.id === id)[0] || {};
   const { name, category, price, origin, labels, productionDate, brandName } = product;
 
@@ -35,10 +35,14 @@ export default function UpdateCard(props) {
     },
     onSubmit: async values => {
       setLoading(true);
+      console.log("values",values)
+      const finalLabels = typeof values.labels === "string" ? values.labels.split(",") : values.labels;
+      console.log("finalLabels", finalLabels)
       try {
         if (id !== "add") {
           await axios.post(`/products/`+ id, {
             ...values,
+            labels: finalLabels,
             devicedId: "admin"
           });
         } else {
@@ -49,7 +53,8 @@ export default function UpdateCard(props) {
         };
       } catch (error) {
         console.log("Error", error);
-      } 
+      }
+      await fetchProductList();
       setLoading(false);
     },
   });

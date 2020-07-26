@@ -11,7 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Update from './Update';
 import LoadingComponent from "../common/LoadingComponent";
 
-const validationSchema = React.useMemo(() =>
+const validationSchema = () =>
   yup.object().shape({
     aboutUsContent :yup.string().required(),
     aboutUsFooter :yup.string().required(),
@@ -50,7 +50,7 @@ const validationSchema = React.useMemo(() =>
     infoTitle3 :yup.string().required(),
     infoContent3 :yup.string().required(),
     versionContent :yup.string().required(),
-}), []);
+});
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -63,7 +63,6 @@ export default function UpdateCard(props) {
   const [loading, setLoading] = React.useState(false);
   // const { id } = useParams();
   const { data } = props;
-  console.log("data", data)
   const adminFields = (data && data[0]) || {
     aboutUs: {
       aboutUsContent: "",

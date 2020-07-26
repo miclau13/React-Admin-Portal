@@ -40,7 +40,6 @@ function App() {
           ...product,
         },['__v', '_id', 'updatedAt'])
       });
-      // console.log("productList",productList);
       setProductsData(productList)
     } catch (error) {
       console.log(" fetchProductList error:", error);
@@ -118,10 +117,10 @@ function App() {
             <AdminUpdateCard data={adminData} /> 
           </Route>
           <Route path="/product/:id">
-            <ProductUpdateCard data={productsData} /> 
+            <ProductUpdateCard data={productsData} fetchProductList={fetchProductList} /> 
           </Route>
           <Route path="/product/add">
-            <ProductUpdateCard /> 
+            <ProductUpdateCard fetchProductList={fetchProductList} /> 
           </Route>
           <Route path="/product">
             <ProductSearchCard data={productsData} fetchProductList={fetchProductList} />

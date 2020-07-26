@@ -42,7 +42,7 @@ export default function SearchCard(props) {
 
   const data = React.useMemo(() => { 
     return input 
-      ? incomingData.filter(item => item.productName.toLowerCase().includes(input.toLowerCase())) 
+      ? incomingData.filter(item => item.name.toLowerCase().includes(input.toLowerCase())) 
       : incomingData;
   }, [incomingData, input]);
   
@@ -99,7 +99,7 @@ export default function SearchCard(props) {
                   <TableCell align="right">Labels</TableCell>
                   {/* <TableCell align="right">Rating</TableCell> */}
                   {/* <TableCell align="right">Saved</TableCell> */}
-                  <TableCell align="right">Production Date</TableCell>
+                  {/* <TableCell align="right">Production Date</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
