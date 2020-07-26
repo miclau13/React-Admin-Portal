@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useFormik, Formik } from 'formik';
 import { camelCase, reduce } from 'lodash';
 import React from 'react';
+import * as yup from 'yup';
 import { useParams } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -9,6 +10,47 @@ import CardContent from '@material-ui/core/CardContent';
 
 import Update from './Update';
 import LoadingComponent from "../common/LoadingComponent";
+
+const validationSchema = React.useMemo(() =>
+  yup.object().shape({
+    aboutUsContent :yup.string().required(),
+    aboutUsFooter :yup.string().required(),
+    aboutUsTitle :yup.string().required(),
+    faqContent :yup.string().required(),
+    termsTitle1 :yup.string().required(),
+    termsContent1 :yup.string().required(),
+    termsTitle2 :yup.string().required(),
+    termsContent2 :yup.string().required(),
+    termsTitle3 :yup.string().required(),
+    termsContent3 :yup.string().required(),
+    privacyTitle1 :yup.string().required(),
+    privacyContent1 :yup.string().required(),
+    privacyTitle2 :yup.string().required(),
+    privacyContent2 :yup.string().required(),
+    privacyTitle3 :yup.string().required(),
+    privacyContent3 :yup.string().required(),
+    privacyTitle4 :yup.string().required(),
+    privacyContent4 :yup.string().required(),
+    privacyTitle5 :yup.string().required(),
+    privacyContent5 :yup.string().required(),
+    privacyTitle6 :yup.string().required(),
+    privacyContent6 :yup.string().required(),
+    privacyTitle7 :yup.string().required(),
+    privacyContent7 :yup.string().required(),
+    privacyTitle8 :yup.string().required(),
+    privacyContent8 :yup.string().required(),
+    privacyTitle9 :yup.string().required(),
+    privacyContent9 :yup.string().required(),
+    privacyTitle10 :yup.string().required(),
+    privacyContent10 :yup.string().required(),
+    infoTitle1 :yup.string().required(),
+    infoContent1 :yup.string().required(),
+    infoTitle2 :yup.string().required(),
+    infoContent2 :yup.string().required(),
+    infoTitle3 :yup.string().required(),
+    infoContent3 :yup.string().required(),
+    versionContent :yup.string().required(),
+}), []);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -214,6 +256,7 @@ export default function UpdateCard(props) {
         <Formik
           initialValues={formik.initialValues}
           onSubmit={formik.onSubmit}
+          validationSchema={validationSchema}
         >
           <Update formik={formik} />
         </Formik>
