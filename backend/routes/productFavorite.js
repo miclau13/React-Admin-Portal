@@ -33,11 +33,13 @@ let ProductFavorite = require('../models/productFavorite.model');
 //     .catch(error => res.status(400).json('Error: ' + error));
 // });
 
-// router.route('/').get((req, res) => {
-//   ProductFavorite.find()
-//     .then(productFavorite => res.json(productFavorite))
-//     .catch(error => res.status(400).json('Error: ' + error));
-// });
+// GET
+router.route('/device/:id').get((req, res) => {
+  const deviceId = req.params.id;
+  ProductFavorite.find({ deviceId })
+    .then(productFavoriteList => res.json(productFavoriteList))
+    .catch(error => res.status(400).json('Error: ' + error));
+});
 
 // POST
 router.route('/:id').post((req, res) => {
