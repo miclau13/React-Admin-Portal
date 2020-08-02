@@ -177,8 +177,8 @@ router.route('/').post((req, res) => {
         const newProductRating = new ProductRating({ deviceId, productId: product._id, rating });
         const productFavoritePromise = await newProductFavorite.save();
         const productRatingPromise = await newProductRating.save();
-        const results = await Promise.all([productFavoritePromise, productRatingPromise]);
-        res.json(results);
+        await Promise.all([productFavoritePromise, productRatingPromise]);
+        res.json(product);
       } catch (error) { 
         res.status(400).json('Product save Error: ' + error)
       };
