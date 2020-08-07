@@ -66,10 +66,10 @@ router.route('/:id').post((req, res) => {
     .catch(error => res.status(400).json('Error: ' + error));
 });
 
-// router.route('/delete').delete((req, res) => {
-//   ProductFavorite.deleteMany()
-//     .then(() => res.json('All ProductFavorite Info Deleted!'))
-//     .catch(error => res.status(400).json('Error: ' + error));
-// });
+router.route('/delete').delete((req, res) => {
+  ProductFavorite.deleteMany()
+    .then(() => res.json('All ProductFavorite Info Deleted!'))
+    .catch(error => res.status(400).json('Error: ' + error));
+});
 
 module.exports = router;

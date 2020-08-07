@@ -32,10 +32,10 @@ router.route('/:id').post((req, res) => {
     .catch(error => res.status(400).json('Error: ' + error));
 });
 
-// router.route('/delete').delete((req, res) => {
-//   ProductRating.deleteMany()
-//     .then(() => res.json('All ProductRating Info Deleted!'))
-//     .catch(error => res.status(400).json('Error: ' + error));
-// });
+router.route('/delete').delete((req, res) => {
+  ProductRating.deleteMany()
+    .then(() => res.json('All ProductRating Info Deleted!'))
+    .catch(error => res.status(400).json('Error: ' + error));
+});
 
 module.exports = router;

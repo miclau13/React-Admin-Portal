@@ -138,13 +138,36 @@ router.route('/:id').post((req, res) => {
 //     .catch(error => res.status(400).json('Error: ' + error));
 // });
 
+router.route('/delete/test').delete((req, res) => {
+  const id = "5f2d3422b72ae6005c2607f1";
+  console.log("id",id)
+  ProductComparison.updateMany({}, { $pullAll: { comparisonIdList: [ id ] } } )
+    .then(hi => res.json('OK!'))
+});
+
 router.route('/delete/:id').delete((req, res) => {
   const id = req.params.id;
+  console.log("id",id)
+  Product.findById(id)
+    .then(product => {
+      console.log("product,",product)
+    })
+  
   Product.findByIdAndDelete(id)
     .then(() => {
-      ProductComparison.deleteMany({ productId: id })
+      ProductComparison.deleteOne({ productId: id })
         .then(() => {
-          res.json('Product Deleted!');
+          ProductFavorite.deleteOne({ productId: id })
+          .then(() => {
+            ProductRating.deleteOne({ productId: id })
+            .then(() => {
+              ProductComparison.updateMany({}, { $pullAll: { comparisonIdList: [ id ] } } )
+                .then(_ => res.json('Product Deleted!'))
+              
+            })
+            .catch(error => res.status(400).json('ProductRating Error: ' + error));
+          })
+          .catch(error => res.status(400).json('ProductFavorite Error: ' + error));
         })
         .catch(error => res.status(400).json('productComparison Error: ' + error));
     })
