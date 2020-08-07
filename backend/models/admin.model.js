@@ -61,6 +61,7 @@ const AdminSchema = new Schema({
   version: { 
     content: { type: String },
   },
+  labels: { type: Array }
 }, {
   timestamps: true,
 });

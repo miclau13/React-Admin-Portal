@@ -90,7 +90,7 @@ router.route('/import').post((req, res) => {
 
 router.route('/:id').post((req, res) => {
   const productId = req.params.id;
-  const { brandName, name, category, price, origin, labels, remarks } = req.body;
+  const { brandName, name, category, price, origin, labels, remarks, isValid, barcodeNumber, photos } = req.body;
   Product.findById(productId)
     .then(product => {
       product.brandName = brandName;
@@ -99,10 +99,10 @@ router.route('/:id').post((req, res) => {
       product.price = price;
       product.origin = origin;
       product.labels = labels;
-      // product.rating = Number(rating);
+      product.isValid = isValid;
       product.remarks = remarks;
-      // product.saved = saved;
-      // product.productionDate = Date.parse(productionDate);
+      product.barcodeNumber = barcodeNumber;
+      product.photos = photos;
 
       product.save()
         .then(products => res.json(products))
@@ -138,12 +138,12 @@ router.route('/:id').post((req, res) => {
 //     .catch(error => res.status(400).json('Error: ' + error));
 // });
 
-router.route('/delete/test').delete((req, res) => {
-  const id = "5f2d3422b72ae6005c2607f1";
-  console.log("id",id)
-  ProductComparison.updateMany({}, { $pullAll: { comparisonIdList: [ id ] } } )
-    .then(hi => res.json('OK!'))
-});
+// router.route('/delete/test').delete((req, res) => {
+//   const id = "5f2d3422b72ae6005c2607f1";
+//   console.log("id",id)
+//   ProductComparison.updateMany({}, { $pullAll: { comparisonIdList: [ id ] } } )
+//     .then(hi => res.json('OK!'))
+// });
 
 router.route('/delete/:id').delete((req, res) => {
   const id = req.params.id;

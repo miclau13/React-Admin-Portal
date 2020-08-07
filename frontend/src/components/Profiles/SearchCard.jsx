@@ -73,11 +73,12 @@ export default function SearchCard(props) {
                   <TableCell>DeviceId</TableCell>
                   <TableCell align="right">Comments</TableCell>
                   <TableCell align="right">Rating</TableCell>
+                  <TableCell align="right">UpdatedAt</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {data.map(row => {
-                  const { id, deviceId, rating, comments } = row;
+                  const { id, deviceId, rating, comments,updatedAt } = row;
                   return (
                     <TableRow hover key={id} className={classes.hover} onClick={handleTableRowOnClick(row.id)} >
                       <TableCell component="th" scope="row">
@@ -85,6 +86,7 @@ export default function SearchCard(props) {
                       </TableCell>
                       <TableCell align="right">{comments}</TableCell>
                       <TableCell align="right">{rating}</TableCell>
+                      <TableCell align="right">{new Date(updatedAt).toLocaleString()}</TableCell>
                     </TableRow>
                   )
                 })}

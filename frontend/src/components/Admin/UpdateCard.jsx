@@ -64,6 +64,7 @@ export default function UpdateCard(props) {
   // const { id } = useParams();
   const { data } = props;
   const adminFields = (data && data[0]) || {
+    labels: [],
     aboutUs: {
       aboutUsContent: "",
       aboutUsFooter: "",
@@ -117,6 +118,7 @@ export default function UpdateCard(props) {
 
   const {    
     id,
+    labels,
     aboutUs: {
       content: aboutUsContent,
       footer: aboutUsFooter,
@@ -170,6 +172,7 @@ export default function UpdateCard(props) {
 
   const formik = useFormik({
     initialValues: {
+      searchLabelsLabels: labels,
       aboutUsContent,
       aboutUsFooter,
       aboutUsTitle,
@@ -210,7 +213,11 @@ export default function UpdateCard(props) {
     },
     onSubmit: async values => {
       const body = reduce(values, (acc, value, key) => {
-        if (key.startsWith('aboutUs')) {
+        if (key.startsWith('searchLabels')) {
+          const k = camelCase(key.substring(12));
+          const finalLabels = typeof value === "string" ? value.split(",") : value;
+          acc['labels'] = finalLabels;
+        } else if (key.startsWith('aboutUs')) {
           const k = camelCase(key.substring(7));
           acc['aboutUs'] = { ...acc['aboutUs'], [k]: value }
         } else if (key.startsWith('faq')) {

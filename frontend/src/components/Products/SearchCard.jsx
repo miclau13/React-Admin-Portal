@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -20,10 +21,10 @@ import LoadingComponent from "../common/LoadingComponent";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100vw',
+    // width: '100vw',
   },
   table: {
-    maxHeight: '100vh'
+    // maxHeight: '100vh',
   },
   hover: {
 		cursor: 'pointer',
@@ -83,28 +84,32 @@ export default function SearchCard(props) {
   };
 
   return (
-    <Card className={classes.root}>
+    <Card>
       <CardContent>
       <Header />
         <Search onSubmit={onSubmit} onChange={onChange} handleAddIconOnClick={handleAddIconOnClick} />
+        <Paper className={classes.root}>
           <TableContainer className={classes.table}>
-            <Table>
+            <Table size="small" stickyHeader>
               <TableHead>
                 <TableRow>
                   <TableCell></TableCell>
                   <TableCell>Name</TableCell>
                   <TableCell align="right">Category</TableCell>
                   <TableCell align="right">Price</TableCell>
+                  <TableCell align="right">Brand</TableCell>
                   <TableCell align="right">Origin</TableCell>
+                  <TableCell align="right">BarCode Number</TableCell>
+                  <TableCell align="right">Valid</TableCell>
                   <TableCell align="right">Labels</TableCell>
-                  {/* <TableCell align="right">Rating</TableCell> */}
-                  {/* <TableCell align="right">Saved</TableCell> */}
-                  {/* <TableCell align="right">Production Date</TableCell> */}
+                  <TableCell align="right">CreatedAt</TableCell>
+                  <TableCell align="right">UpdatedAt</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {data.map(row => {
-                  const { id, category, labels, origin, price, name, productionDate, rating } = row;
+                  const { id, category, labels, origin, price, name, brandName, barcodeNumber, isValid, photos, createdAt, updatedAt } = row;
+                  console.log("row",row)
                   return (
                     <TableRow hover key={id} className={classes.hover} onClick={handleTableRowOnClick(row.id)} >
                       <TableCell component="th" scope="row">
@@ -117,17 +122,20 @@ export default function SearchCard(props) {
                       </TableCell>
                       <TableCell align="right">{category}</TableCell>
                       <TableCell align="right">{price}</TableCell>
+                      <TableCell align="right">{brandName}</TableCell> 
                       <TableCell align="right">{origin}</TableCell>
+                      <TableCell align="right">{barcodeNumber}</TableCell>
+                      <TableCell align="right">{Number(isValid)}</TableCell>
                       <TableCell align="right">{labels}</TableCell>
-                      {/* <TableCell align="right">{rating}</TableCell> */}
-                      {/* <TableCell align="right">{saved}</TableCell> */}
-                      <TableCell align="right">{productionDate}</TableCell>
+                      <TableCell align="right">{new Date(createdAt).toLocaleString()}</TableCell>
+                      <TableCell align="right">{new Date(updatedAt).toLocaleString()}</TableCell>
                     </TableRow>
                   )
                 })}
               </TableBody>
             </Table>
           </TableContainer> 
+        </Paper>
       </CardContent>
     </Card>
   );

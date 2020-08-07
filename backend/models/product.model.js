@@ -4,16 +4,17 @@ const Schema = mongooese.Schema;
 const ProductSchema = new Schema({
   name: { type: String, required: true, trim: true },
   brandName: { type: String },
-  barCodeNumber: { type: String },
+  barcodeNumber: { type: String },
   category: { type: String, required: true, trim: true },
   price: { type: Number, required: true, trim: true },
   origin: { type: String },
   productionDate: { type: Date },
   labels: { type: Array },
-  // saved: { type: Boolean },
+
   // rating: { type: Number },
   photos: { type: Array },
   remarks: { type: String },
+  isValid: { type: Boolean },
 }, {
   timestamps: true,
 });

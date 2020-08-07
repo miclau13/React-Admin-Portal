@@ -1,5 +1,11 @@
 export const MORE_INFO = [
   {
+    group: 'Search labels',
+    items: [
+      'labels',
+    ]
+  },
+  {
     group: 'About Us',
     items: [
       'title',

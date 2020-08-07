@@ -38,7 +38,7 @@ function App() {
         return omit({
           id: product._id,
           ...product,
-        },['__v', '_id', 'updatedAt'])
+        },['__v', '_id'])
       });
       setProductsData(productList)
     } catch (error) {
@@ -64,7 +64,7 @@ function App() {
           return omit({
             id: admin._id,
             ...admin,
-          },['__v', '_id', 'updatedAt'])
+          },['__v', '_id'])
         });
         setAdminData(adminDataList)
       } catch (error) {
@@ -88,7 +88,7 @@ function App() {
           return omit({
             id: profile._id,
             ...profile,
-          },['__v', '_id', 'updatedAt'])
+          },['__v', '_id'])
         });
         setProfilesData(profileDataList)
       } catch (error) {

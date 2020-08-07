@@ -21,7 +21,7 @@ export default function UpdateCard(props) {
   const { id } = useParams();
   const { data = [], fetchProductList } = props;
   const product = data.filter(item => item.id === id)[0] || {};
-  const { name, category, price, origin, labels, productionDate, brandName } = product;
+  const { name, category, price, origin, labels, productionDate, brandName, isValid, barcodeNumber, photos } = product;
 
   const formik = useFormik({
     initialValues: {
@@ -31,18 +31,23 @@ export default function UpdateCard(props) {
       origin,
       labels,
       brandName,
-      // productionDate,
+      isValid: Number(isValid),
+      barcodeNumber,
+      photos
     },
     onSubmit: async values => {
       setLoading(true);
       console.log("values",values)
       const finalLabels = typeof values.labels === "string" ? values.labels.split(",") : values.labels;
       console.log("finalLabels", finalLabels)
+      const finalPhotos = typeof values.photos === "string" ? values.photos.split(",") : values.photos;
+      console.log("finalPhotos", finalPhotos)
       try {
         if (id !== "add") {
           await axios.post(`/products/`+ id, {
             ...values,
             labels: finalLabels,
+            photos: finalPhotos,
             devicedId: "admin"
           });
         } else {

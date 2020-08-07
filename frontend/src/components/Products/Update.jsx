@@ -92,6 +92,32 @@ const Update = (props) => {
         defaultValue={initialValues['origin']}
       />
       <TextField
+        id="barcodeNumber"
+        label="Barcode Number"
+        variant="outlined"
+        name="barcodeNumber"
+        margin="normal"
+        inputProps={{
+          onBlur: handleBlur,
+          onChange: handleChange,
+          value: values['barcodeNumber'],
+        }}
+        defaultValue={initialValues['barcodeNumber']}
+      />
+      <TextField
+        id="valid"
+        label="Valid"
+        variant="outlined"
+        name="isValid"
+        margin="normal"
+        inputProps={{
+          onBlur: handleBlur,
+          onChange: handleChange,
+          value: values['isValid'],
+        }}
+        defaultValue={initialValues['isValid']}
+      />
+      <TextField
         id="labels"
         label="Labels"
         variant="outlined"
@@ -104,33 +130,19 @@ const Update = (props) => {
         }}
         defaultValue={initialValues['labels']}
       />
-      {/* <TextField
-        id="rating"
-        label="Rating"
+      <TextField
+        id="photos"
+        label="Photos"
         variant="outlined"
-        name="rating"
+        name="photos"
         margin="normal"
         inputProps={{
           onBlur: handleBlur,
           onChange: handleChange,
-          value: values['rating'],
+          value: values['photos'],
         }}
-        defaultValue={initialValues['rating']}
-      /> */}
-      {/* <TextField
-        disabled
-        id="productionDate"
-        label="Production Date"
-        variant="outlined"
-        name="productionDate"
-        margin="normal"
-        inputProps={{
-          onBlur: handleBlur,
-          onChange: handleChange,
-          value: values['productionDate'],
-        }}
-        defaultValue={initialValues['productionDate']}
-      /> */}
+        defaultValue={initialValues['photos']}
+      />
       <Button 
         color="primary"
         variant="contained" 
