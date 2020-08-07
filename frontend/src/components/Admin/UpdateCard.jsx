@@ -215,7 +215,8 @@ export default function UpdateCard(props) {
       const body = reduce(values, (acc, value, key) => {
         if (key.startsWith('searchLabels')) {
           const k = camelCase(key.substring(12));
-          const finalLabels = typeof value === "string" ? value.split(",") : value;
+          console.log("value",value)
+          const finalLabels = value ? typeof value === "string" ? value.split(",") : value : [];
           acc['labels'] = finalLabels;
         } else if (key.startsWith('aboutUs')) {
           const k = camelCase(key.substring(7));

@@ -21,7 +21,7 @@ router.route('/:id').post((req, res) => {
     labels,
   } = req.body;
   // console.log("req.body",req.body)
-  // console.log("labels",labels)
+  console.log("labels",labels)
   Admin.findById(adminId)
     .then(admin => {
       admin.aboutUs = aboutUs;
