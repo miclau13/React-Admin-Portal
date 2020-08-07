@@ -197,7 +197,7 @@ router.route('/').post((req, res) => {
         res.json(product);
       } else {
         try {
-          const newProductFavorite = new ProductFavorite({ deviceId, productId: product._id, saved: true });
+          const newProductFavorite = new ProductFavorite({ deviceId, productId: product._id, saved: false });
           const newProductRating = new ProductRating({ deviceId, productId: product._id, rating });
           const productFavoritePromise = await newProductFavorite.save();
           const productRatingPromise = await newProductRating.save();
