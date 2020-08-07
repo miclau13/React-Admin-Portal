@@ -29,6 +29,7 @@ router.route('/device/:id').get((req, res) => {
             updatedAt: product.updatedAt,
             saved: !productFavorite ? false : productFavorite.saved,
             rating: !productRating ? 0 : productRating.rating,
+            isValid: product.isValid,
           }
           return productResult;
         });
@@ -191,23 +192,23 @@ router.route('/').post((req, res) => {
   const newProduct = new Product(producInfo);
 
   newProduct.save()
-  .then(async product => {
-    if (deviceId === "admin") {
-      res.json(product);
-    } else {
-      try {
-        const newProductFavorite = new ProductFavorite({ deviceId, productId: product._id, saved: true });
-        const newProductRating = new ProductRating({ deviceId, productId: product._id, rating });
-        const productFavoritePromise = await newProductFavorite.save();
-        const productRatingPromise = await newProductRating.save();
-        await Promise.all([productFavoritePromise, productRatingPromise]);
+    .then(async product => {
+      if (deviceId === "admin") {
         res.json(product);
-      } catch (error) { 
-        res.status(400).json('Product save Error: ' + error)
-      };
-    }
-  })
-  .catch(error => res.status(400).json('Error: ' + error));
+      } else {
+        try {
+          const newProductFavorite = new ProductFavorite({ deviceId, productId: product._id, saved: true });
+          const newProductRating = new ProductRating({ deviceId, productId: product._id, rating });
+          const productFavoritePromise = await newProductFavorite.save();
+          const productRatingPromise = await newProductRating.save();
+          await Promise.all([productFavoritePromise, productRatingPromise]);
+          res.json(product);
+        } catch (error) { 
+          res.status(400).json('Product save Error: ' + error)
+        };
+      }
+    })
+    .catch(error => res.status(400).json('Error: ' + error));
 })
 
 module.exports = router;
