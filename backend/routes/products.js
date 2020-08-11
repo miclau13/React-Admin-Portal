@@ -42,6 +42,16 @@ router.route('/device/:id').get((req, res) => {
     .catch(error => res.status(400).json('Error: ' + error));
 });
 
+router.route('/barcodeNumber/:id').get((req, res) => {
+  const barcodeNumber = req.params.id;
+  console.log("barcodeNumber",barcodeNumber)
+  Product.findOne({ barcodeNumber })
+    .then(async product => {
+      res.json(product);
+    })
+    .catch(error => res.status(400).json('Error: ' + error));
+});
+
 router.route('/').get((req, res) => {
   const productName = req.query.name;
   if (productName) {
@@ -65,7 +75,7 @@ router.route('/import').post((req, res) => {
       .on('data', (data) => {
         //data is a buffer object
         const dataInJson = JSON.parse(data.toString('utf8'));
-        const labelsInArray = dataInJson.labels.split(", ");
+        const labelsInArray = dataInJson.labels.split(",");
         const photosInArray = dataInJson.photos.split("\n");
         const _result = { ...dataInJson, labels: labelsInArray, photos: photosInArray};
         result.push(_result);
@@ -112,39 +122,29 @@ router.route('/:id').post((req, res) => {
     .catch(error => res.status(400).json('Error: ' + error));
 });
 
-// router.route('/favorite/:id').post((req, res) => {
-//   const productId = req.params.id;
-//   Product.findById(productId)
-//     .then(product => {
-//       product.saved = !product.saved;
+router.route('/').post((req, res) => {
+  const { rating, deviceId, ...producInfo } = req.body;
+  const newProduct = new Product(producInfo);
 
-//       product.save()
-//         .then(products => res.json(products))
-//         .catch(error => res.status(400).json('Error: ' + error));
-//     })
-//     .catch(error => res.status(400).json('Error: ' + error));
-// });
-
-// router.route('/rating/:id').post((req, res) => {
-//   const productId = req.params.id;
-//   const { rating } = req.body;
-//   Product.findById(productId)
-//     .then(product => {
-//       product.rating = rating;
-
-//       product.save()
-//         .then(products => res.json(products))
-//         .catch(error => res.status(400).json('Error: ' + error));
-//     })
-//     .catch(error => res.status(400).json('Error: ' + error));
-// });
-
-// router.route('/delete/test').delete((req, res) => {
-//   const id = "5f2d3422b72ae6005c2607f1";
-//   console.log("id",id)
-//   ProductComparison.updateMany({}, { $pullAll: { comparisonIdList: [ id ] } } )
-//     .then(hi => res.json('OK!'))
-// });
+  newProduct.save()
+    .then(async product => {
+      if (deviceId === "admin") {
+        res.json(product);
+      } else {
+        try {
+          const newProductFavorite = new ProductFavorite({ deviceId, productId: product._id, saved: false });
+          const newProductRating = new ProductRating({ deviceId, productId: product._id, rating });
+          const productFavoritePromise = await newProductFavorite.save();
+          const productRatingPromise = await newProductRating.save();
+          await Promise.all([productFavoritePromise, productRatingPromise]);
+          res.json(product);
+        } catch (error) { 
+          res.status(400).json('Product save Error: ' + error)
+        };
+      }
+    })
+    .catch(error => res.status(400).json('Error: ' + error));
+})
 
 router.route('/delete/:id').delete((req, res) => {
   const id = req.params.id;
@@ -186,29 +186,5 @@ router.route('/delete').delete((req, res) => {
     })
     .catch(error => res.status(400).json('Error: ' + error));
 });
-
-router.route('/').post((req, res) => {
-  const { rating, deviceId, ...producInfo } = req.body;
-  const newProduct = new Product(producInfo);
-
-  newProduct.save()
-    .then(async product => {
-      if (deviceId === "admin") {
-        res.json(product);
-      } else {
-        try {
-          const newProductFavorite = new ProductFavorite({ deviceId, productId: product._id, saved: false });
-          const newProductRating = new ProductRating({ deviceId, productId: product._id, rating });
-          const productFavoritePromise = await newProductFavorite.save();
-          const productRatingPromise = await newProductRating.save();
-          await Promise.all([productFavoritePromise, productRatingPromise]);
-          res.json(product);
-        } catch (error) { 
-          res.status(400).json('Product save Error: ' + error)
-        };
-      }
-    })
-    .catch(error => res.status(400).json('Error: ' + error));
-})
 
 module.exports = router;
