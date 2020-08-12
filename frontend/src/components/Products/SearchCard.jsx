@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SearchCard(props) {
-  const { data: incomingData = [], fetchProductList } = props;
+  const { data: incomingData = [], fetchProductList, deleteAllProducts } = props;
   const classes = useStyles();
   const history = useHistory();
   const [input, setInput] = React.useState();
@@ -86,7 +86,7 @@ export default function SearchCard(props) {
   return (
     <Card>
       <CardContent>
-      <Header />
+      <Header deleteAllProducts={deleteAllProducts} />
         <Search onSubmit={onSubmit} onChange={onChange} handleAddIconOnClick={handleAddIconOnClick} />
         <Paper className={classes.root}>
           <TableContainer className={classes.table}>

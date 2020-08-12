@@ -180,9 +180,17 @@ router.route('/delete').delete((req, res) => {
     .then(() => {
       ProductComparison.deleteMany()
         .then(() => {
-          res.json('All Products Deleted!');
+          ProductFavorite.deleteMany()
+          .then(() => {
+            ProductRating.deleteMany()
+            .then(() => {
+                res.json('All Product Deleted!')
+            })
+            .catch(error => res.status(400).json('Delete ProductRating Error: ' + error));
+          })
+          .catch(error => res.status(400).json('Delete ProductFavorite Error: ' + error));
         })
-        .catch(error => res.status(400).json('productComparison Error: ' + error));
+        .catch(error => res.status(400).json('Delete ProductComparison Error: ' + error));
     })
     .catch(error => res.status(400).json('Error: ' + error));
 });

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -43,6 +44,17 @@ function App() {
       setProductsData(productList)
     } catch (error) {
       console.log(" fetchProductList error:", error);
+    } finally { 
+      setLoading(false);
+    }
+  };
+
+  const deleteAllProducts = async () => {
+    try {
+      setLoading(true);
+      await axios.delete(`/products/delete`);  
+    } catch (error) {
+      console.log(" deleteAllProducts error:", error);
     } finally { 
       setLoading(false);
     }
@@ -123,7 +135,7 @@ function App() {
             <ProductUpdateCard fetchProductList={fetchProductList} /> 
           </Route>
           <Route path="/product">
-            <ProductSearchCard data={productsData} fetchProductList={fetchProductList} />
+            <ProductSearchCard data={productsData} fetchProductList={fetchProductList} deleteAllProducts={deleteAllProducts} />
           </Route>
           <Route path="/products-import">
             <ProductImportDataCard />
