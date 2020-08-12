@@ -76,7 +76,7 @@ router.route('/import').post((req, res) => {
         //data is a buffer object
         const dataInJson = JSON.parse(data.toString('utf8'));
         const labelsInArray = dataInJson.labels.split(",");
-        const photosInArray = dataInJson.photos.split("\n");
+        const photosInArray = dataInJson.photos.split(",");
         const _result = { ...dataInJson, labels: labelsInArray, photos: photosInArray};
         result.push(_result);
       })
