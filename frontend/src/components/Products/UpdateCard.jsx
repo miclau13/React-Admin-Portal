@@ -53,6 +53,8 @@ export default function UpdateCard(props) {
         } else {
           await axios.post(`/products`, {
             ...values,
+            labels: finalLabels,
+            photos: finalPhotos,
             devicedId: "admin"
           });
         };

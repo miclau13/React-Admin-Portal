@@ -109,7 +109,7 @@ export default function SearchCard(props) {
               <TableBody>
                 {data.map(row => {
                   const { id, category, labels, origin, price, name, brandName, barcodeNumber, isValid, photos, createdAt, updatedAt } = row;
-                  console.log("row",row)
+                  // console.log("row",row)
                   return (
                     <TableRow hover key={id} className={classes.hover} onClick={handleTableRowOnClick(row.id)} >
                       <TableCell component="th" scope="row">
